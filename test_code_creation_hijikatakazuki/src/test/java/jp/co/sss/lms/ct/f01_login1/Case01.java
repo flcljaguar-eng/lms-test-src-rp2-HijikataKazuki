@@ -43,11 +43,11 @@ public class Case01 {
 		goTo(TestUrlUtil.TOP_PAGE);
 
 		final String title = webDriver.getTitle();
-		final WebElement loginBotton = webDriver.findElement(By.className("btn-primary"));
-		String botton = loginBotton.getAttribute("value");
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		String button = loginButton.getAttribute("value");
 
 		assertEquals("ログイン | LMS", title);
-		assertEquals("ログイン", botton);
+		assertEquals("ログイン", button);
 
 		getEvidence(new Object() {
 		});

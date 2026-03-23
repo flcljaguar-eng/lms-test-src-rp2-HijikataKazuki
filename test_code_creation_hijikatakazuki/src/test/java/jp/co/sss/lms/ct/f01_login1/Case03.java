@@ -41,8 +41,16 @@ public class Case03 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		goTo(TestUrlUtil.TOP_PAGE);
+
+		final String title = webDriver.getTitle();
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		String button = loginButton.getAttribute("value");
+
+		assertEquals("ログイン | LMS", title);
+		assertEquals("ログイン", button);
+
 		getEvidence(new Object() {
-		}, "1");
+		});
 	}
 
 	@Test
@@ -52,13 +60,13 @@ public class Case03 {
 		// WebElementを利用してログイン処理を行う
 		final WebElement userId = webDriver.findElement(By.id("loginId"));
 		final WebElement password = webDriver.findElement(By.id("password"));
-		final WebElement loginBotton = webDriver.findElement(By.className("btn-primary"));
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
 
 		userId.clear();
 		userId.sendKeys("StudentAA01");
 		password.clear();
 		password.sendKeys("StudentAA01");
-		loginBotton.click();
+		loginButton.click();
 
 		// タイトルがコース詳細画面になっていることを確認する
 		final String title = webDriver.getTitle();
@@ -66,7 +74,7 @@ public class Case03 {
 		assertEquals("コース詳細 | LMS", title);
 
 		getEvidence(new Object() {
-		}, "2");
+		});
 
 	}
 
