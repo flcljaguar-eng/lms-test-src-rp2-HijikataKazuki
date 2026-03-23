@@ -17,12 +17,12 @@ import jp.co.sss.lms.ct.util.TestUrlUtil;
 
 /**
  * 結合テスト ログイン機能①
- * ケース02
+ * ケース03
  * @author holy
  */
 @TestMethodOrder(OrderAnnotation.class)
-@DisplayName("ケース02 受講生 ログイン 認証失敗")
-public class Case02 {
+@DisplayName("ケース03 受講生 ログイン 正常系")
+public class Case03 {
 
 	/** 前処理 */
 	@BeforeAll
@@ -41,33 +41,40 @@ public class Case02 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		goTo(TestUrlUtil.TOP_PAGE);
+
+		final String title = webDriver.getTitle();
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		String button = loginButton.getAttribute("value");
+
+		assertEquals("ログイン | LMS", title);
+		assertEquals("ログイン", button);
+
 		getEvidence(new Object() {
-		}, "1");
+		});
 	}
 
 	@Test
 	@Order(2)
-	@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
+	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
 		// WebElementを利用してログイン処理を行う
 		final WebElement userId = webDriver.findElement(By.id("loginId"));
 		final WebElement password = webDriver.findElement(By.id("password"));
-		final WebElement loginBotton = webDriver.findElement(By.className("btn-primary"));
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
 
 		userId.clear();
-		userId.sendKeys("NotStudent00");
+		userId.sendKeys("StudentAA01");
 		password.clear();
-		password.sendKeys("password");
-		loginBotton.click();
+		password.sendKeys("StudentAA01");
+		loginButton.click();
 
-		// ヴァリデーションメッセージが正しいことを確認する
-		final WebElement validation = webDriver.findElement(By.className("error"));
-		String validText = validation.getText();
+		// タイトルがコース詳細画面になっていることを確認する
+		final String title = webDriver.getTitle();
 
-		assertEquals("* ログインに失敗しました。", validText);
+		assertEquals("コース詳細 | LMS", title);
 
 		getEvidence(new Object() {
-		}, "2");
+		});
 
 	}
 
