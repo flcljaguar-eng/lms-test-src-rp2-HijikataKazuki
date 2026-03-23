@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,10 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.TestUrlUtil;
 
 /**
  * 結合テスト ログイン機能①
@@ -35,14 +40,35 @@ public class Case02 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(TestUrlUtil.TOP_PAGE);
+		getEvidence(new Object() {
+		}, "1");
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		// WebElementを利用してログイン処理を行う
+		final WebElement userId = webDriver.findElement(By.id("loginId"));
+		final WebElement password = webDriver.findElement(By.id("password"));
+		final WebElement loginBotton = webDriver.findElement(By.className("btn-primary"));
+
+		userId.clear();
+		userId.sendKeys("NotStudent00");
+		password.clear();
+		password.sendKeys("password");
+		loginBotton.click();
+
+		// ヴァリデーションメッセージが正しいことを確認する
+		final WebElement validation = webDriver.findElement(By.className("error"));
+		String validText = validation.getText();
+
+		assertEquals("* ログインに失敗しました。", validText);
+
+		getEvidence(new Object() {
+		}, "2");
+
 	}
 
 }
