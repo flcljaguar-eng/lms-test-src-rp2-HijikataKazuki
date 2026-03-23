@@ -42,7 +42,7 @@ public class Case03 {
 	void test01() {
 		goTo(TestUrlUtil.TOP_PAGE);
 		getEvidence(new Object() {
-		}, "1");
+		});
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class Case03 {
 		assertEquals("コース詳細 | LMS", title);
 
 		getEvidence(new Object() {
-		}, "2");
+		});
 
 	}
 

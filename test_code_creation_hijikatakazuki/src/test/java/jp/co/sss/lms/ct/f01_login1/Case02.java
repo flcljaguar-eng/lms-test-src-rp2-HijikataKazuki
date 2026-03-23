@@ -42,7 +42,7 @@ public class Case02 {
 	void test01() {
 		goTo(TestUrlUtil.TOP_PAGE);
 		getEvidence(new Object() {
-		}, "1");
+		});
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class Case02 {
 		assertEquals("* ログインに失敗しました。", validText);
 
 		getEvidence(new Object() {
-		}, "2");
+		});
 
 	}
 
