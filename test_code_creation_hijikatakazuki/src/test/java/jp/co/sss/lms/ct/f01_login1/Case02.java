@@ -41,16 +41,8 @@ public class Case02 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		goTo(TestUrlUtil.TOP_PAGE);
-
-		final String title = webDriver.getTitle();
-		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
-		String button = loginButton.getAttribute("value");
-
-		assertEquals("ログイン | LMS", title);
-		assertEquals("ログイン", button);
-
 		getEvidence(new Object() {
-		});
+		}, "1");
 	}
 
 	@Test
@@ -60,13 +52,13 @@ public class Case02 {
 		// WebElementを利用してログイン処理を行う
 		final WebElement userId = webDriver.findElement(By.id("loginId"));
 		final WebElement password = webDriver.findElement(By.id("password"));
-		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		final WebElement loginBotton = webDriver.findElement(By.className("btn-primary"));
 
 		userId.clear();
 		userId.sendKeys("NotStudent00");
 		password.clear();
 		password.sendKeys("password");
-		loginButton.click();
+		loginBotton.click();
 
 		// ヴァリデーションメッセージが正しいことを確認する
 		final WebElement validation = webDriver.findElement(By.className("error"));
@@ -75,7 +67,7 @@ public class Case02 {
 		assertEquals("* ログインに失敗しました。", validText);
 
 		getEvidence(new Object() {
-		});
+		}, "2");
 
 	}
 
