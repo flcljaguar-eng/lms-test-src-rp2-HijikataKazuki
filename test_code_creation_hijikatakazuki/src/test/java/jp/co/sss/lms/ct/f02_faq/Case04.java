@@ -86,8 +86,11 @@ public class Case04 {
 		final WebElement function = webDriver.findElement(By.className("dropdown-toggle"));
 		function.click();
 
-		final WebElement help = webDriver.findElement(By.xpath(TestUrlUtil.HELP_XPATH));
-		help.click();
+		final WebElement helpLink = webDriver.findElement(By.xpath(TestUrlUtil.HELP_XPATH));
+		helpLink.click();
+
+		final WebElement helpPage = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ヘルプ", helpPage.getText());
 
 		getEvidence(new Object() {
 		});
@@ -99,6 +102,14 @@ public class Case04 {
 	void test04() {
 		final WebElement faq = webDriver.findElement(By.linkText("よくある質問"));
 		faq.click();
+
+		// 新規タブが生成されていることの確認と操作タブの切り替え
+		Object[] allTab = webDriver.getWindowHandles().toArray();
+		assertEquals(allTab.length, 2);
+		webDriver.switchTo().window((String) allTab[1]);
+
+		final WebElement faqPage = webDriver.findElement(By.tagName("h2"));
+		assertEquals("よくある質問", faqPage.getText());
 
 		getEvidence(new Object() {
 		});
