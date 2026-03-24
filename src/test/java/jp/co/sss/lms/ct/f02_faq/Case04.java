@@ -86,7 +86,7 @@ public class Case04 {
 		final WebElement function = webDriver.findElement(By.className("dropdown-toggle"));
 		function.click();
 
-		final WebElement help = webDriver.findElement(By.linkText("ヘルプ"));
+		final WebElement help = webDriver.findElement(By.xpath(TestUrlUtil.HELP_XPATH));
 		help.click();
 
 		getEvidence(new Object() {
@@ -97,7 +97,11 @@ public class Case04 {
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		final WebElement faq = webDriver.findElement(By.linkText("よくある質問"));
+		faq.click();
+
+		getEvidence(new Object() {
+		});
 	}
 
 }
