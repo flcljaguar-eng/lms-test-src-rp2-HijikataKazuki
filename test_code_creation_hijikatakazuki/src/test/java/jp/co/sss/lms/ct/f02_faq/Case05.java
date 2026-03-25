@@ -3,6 +3,8 @@ package jp.co.sss.lms.ct.f02_faq;
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -81,21 +83,15 @@ public class Case05 {
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// WebElementを利用してログイン処理を行う
-		final WebElement userId = webDriver.findElement(By.id("loginId"));
-		final WebElement password = webDriver.findElement(By.id("password"));
-		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		// WebElementを利用して上部メニュー機能からヘルプ画面へ遷移を行う
+		final WebElement function = webDriver.findElement(By.className("dropdown-toggle"));
+		function.click();
 
-		userId.clear();
-		userId.sendKeys("StudentAA01");
-		password.clear();
-		password.sendKeys("StudentAA01");
-		loginButton.click();
+		final WebElement helpLink = webDriver.findElement(By.xpath(TestUrlUtil.HELP_XPATH));
+		helpLink.click();
 
-		// タイトルがコース詳細画面になっていることを確認する
-		final String title = webDriver.getTitle();
-
-		assertEquals("コース詳細 | LMS", title);
+		final WebElement helpPage = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ヘルプ", helpPage.getText());
 
 		getEvidence(new Object() {
 		});
@@ -132,14 +128,42 @@ public class Case05 {
 		searchForm.sendKeys("IT");
 		searchButton.click();
 
-		final WebElement grant = webDriver.findElement(By.className(TestUrlUtil.GRANT_VALUE));
+		// 検索結果テーブルの要素を取得
+		final List<WebElement> faqTable = webDriver.findElements(By.xpath(TestUrlUtil.FAQ_TABLE));
+		WebElement createGrantDocuments = null;
+		WebElement applyForTraining = null;
+
+		// 期待する検索結果の要素があることを確認
+		for (WebElement element : faqTable) {
+			if (element.getText().contains("助成金書類の作成方法が分かりません")) {
+				createGrantDocuments = element;
+				;
+
+			} else if (element.getText().contains("研修の申し込みはどのようにすれば良いですか？")) {
+				applyForTraining = element;
+			}
+		}
+		assertNotEquals(createGrantDocuments, null);
+		assertNotEquals(applyForTraining, null);
+
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 「クリア」ボタン押下で入力したキーワードを消去")
 	void test06() {
-		// TODO ここに追加
+		WebElement searchForm = webDriver.findElement(By.id("form"));
+		assertEquals("IT", searchForm.getAttribute("value"));
+
+		webDriver.findElement(By.xpath(TestUrlUtil.CLEAR_BUTTON)).click();
+
+		searchForm = webDriver.findElement(By.id("form"));
+		assertEquals("", searchForm.getAttribute("value"));
+
+		getEvidence(new Object() {
+		});
 	}
 
 }
