@@ -1,6 +1,9 @@
 package jp.co.sss.lms.ct.f02_faq;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +12,12 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.TestStringUtil;
+import jp.co.sss.lms.ct.util.TestUrlUtil;
 
 /**
  * 結合テスト よくある質問機能
@@ -35,42 +44,139 @@ public class Case06 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
+		goTo(TestUrlUtil.TOP_PAGE);
+
+		final String title = webDriver.getTitle();
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+		String button = loginButton.getAttribute("value");
+
+		assertEquals("ログイン | LMS", title);
+		assertEquals("ログイン", button);
+
+		getEvidence(new Object() {
+		});
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 初回ログイン済みの受講生ユーザーでログイン")
 	void test02() {
-		// TODO ここに追加
+		// WebElementを利用してログイン処理を行う
+		final WebElement userId = webDriver.findElement(By.id("loginId"));
+		final WebElement password = webDriver.findElement(By.id("password"));
+		final WebElement loginButton = webDriver.findElement(By.className("btn-primary"));
+
+		userId.clear();
+		userId.sendKeys(TestStringUtil.STUDENT_PASSWORD);
+		password.clear();
+		password.sendKeys(TestStringUtil.STUDENT_PASSWORD);
+		loginButton.click();
+
+		// タイトルがコース詳細画面になっていることを確認する
+		final String title = webDriver.getTitle();
+
+		assertEquals("コース詳細 | LMS", title);
+
+		getEvidence(new Object() {
+		});
+
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("テスト03 上部メニューの「ヘルプ」リンクからヘルプ画面に遷移")
 	void test03() {
-		// TODO ここに追加
+		// WebElementを利用して上部メニュー機能からヘルプ画面へ遷移を行う
+		final WebElement function = webDriver.findElement(By.className("dropdown-toggle"));
+		function.click();
+
+		final WebElement helpLink = webDriver.findElement(By.xpath(TestUrlUtil.HELP_XPATH));
+		helpLink.click();
+
+		final WebElement helpPage = webDriver.findElement(By.tagName("h2"));
+		assertEquals("ヘルプ", helpPage.getText());
+
+		getEvidence(new Object() {
+		});
+
 	}
 
 	@Test
 	@Order(4)
 	@DisplayName("テスト04 「よくある質問」リンクからよくある質問画面を別タブに開く")
 	void test04() {
-		// TODO ここに追加
+		final WebElement faq = webDriver.findElement(By.linkText("よくある質問"));
+		faq.click();
+
+		// 新規タブが生成されていることの確認と操作タブの切り替え
+		Object[] allTab = webDriver.getWindowHandles().toArray();
+		assertEquals(allTab.length, 2);
+		webDriver.switchTo().window((String) allTab[1]);
+
+		final WebElement faqPage = webDriver.findElement(By.tagName("h2"));
+		assertEquals("よくある質問", faqPage.getText());
+
+		getEvidence(new Object() {
+		});
+
 	}
 
 	@Test
 	@Order(5)
 	@DisplayName("テスト05 カテゴリ検索で該当カテゴリの検索結果だけ表示")
 	void test05() {
-		// TODO ここに追加
+		// WebElementを利用し、カテゴリ検索を行う
+		final WebElement categoryTraining = webDriver.findElement(By.xpath(TestUrlUtil.CATEGORY_SEARCH_TRAINING_XPATH));
+		categoryTraining.click();
+
+		// 検索結果テーブルの要素を取得
+		final List<WebElement> faqTable = webDriver.findElements(By.xpath(TestUrlUtil.FAQ_TABLE_XPATH));
+		WebElement cancellFeeAndDropSchool = null;
+		WebElement applyForTraining = null;
+		WebElement otherQuestion = null;
+
+		// 期待する検索結果の要素のみが表示されている確認
+		for (WebElement element : faqTable) {
+			if (element.getText().contains(TestStringUtil.CANCELL_FEE_AND_DROP_SCHOOL)) {
+				cancellFeeAndDropSchool = element;
+
+			} else if (element.getText().contains(TestStringUtil.CREATE_GRANT_DOCUMENTS_QUESTION)) {
+				applyForTraining = element;
+
+				// 期待値以外が表示されていた場合
+			} else {
+				otherQuestion = element;
+			}
+		}
+		assertNotEquals(cancellFeeAndDropSchool, null);
+		assertNotEquals(applyForTraining, null);
+		assertNull(otherQuestion);
+
+		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", cancellFeeAndDropSchool);
+		cancellFeeAndDropSchool.click();
+		getEvidence(new Object() {
+		});
+
 	}
 
 	@Test
 	@Order(6)
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
-		// TODO ここに追加
+		final WebElement cancellFeeAndDropSchool = webDriver
+				.findElement(By.xpath("//dl[contains(@id,'question-h')]"));
+		assertEquals(TestStringUtil.CANCELL_FEE_AND_DROP_SCHOOL, cancellFeeAndDropSchool.getText());
+
+		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", cancellFeeAndDropSchool);
+		cancellFeeAndDropSchool.click();
+
+		final WebElement cancellFeeAndDropSchoolAnswer = webDriver
+				.findElement(By.xpath("//dd[contains(@id,'answer-h')]"));
+		assertEquals(TestStringUtil.CANCELL_FEE_AND_DROP_SCHOOL_ANSER, cancellFeeAndDropSchoolAnswer.getText());
+		assertTrue(cancellFeeAndDropSchoolAnswer.isDisplayed());
+
+		getEvidence(new Object() {
+		});
 	}
 
 }

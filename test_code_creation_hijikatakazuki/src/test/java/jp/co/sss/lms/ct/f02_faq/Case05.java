@@ -15,6 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import jp.co.sss.lms.ct.util.TestStringUtil;
 import jp.co.sss.lms.ct.util.TestUrlUtil;
 
 /**
@@ -122,25 +123,24 @@ public class Case05 {
 	void test05() {
 		// WebElementを利用し、テキストフォームから検索を行う
 		final WebElement searchForm = webDriver.findElement(By.id("form"));
-		final WebElement searchButton = webDriver.findElement(By.xpath(TestUrlUtil.SEARCH_VALUE));
+		final WebElement searchButton = webDriver.findElement(By.xpath(TestUrlUtil.SEARCH_VALUE_XPATH));
 
 		searchForm.clear();
 		searchForm.sendKeys("IT");
 		searchButton.click();
 
 		// 検索結果テーブルの要素を取得
-		final List<WebElement> faqTable = webDriver.findElements(By.xpath(TestUrlUtil.FAQ_TABLE));
+		final List<WebElement> faqTable = webDriver.findElements(By.xpath(TestUrlUtil.FAQ_TABLE_XPATH));
 		WebElement createGrantDocuments = null;
 		WebElement applyForTraining = null;
 		WebElement otherQuestion = null;
 
 		// 期待する検索結果の要素のみが表示されている確認
 		for (WebElement element : faqTable) {
-			if (element.getText().contains("助成金書類の作成方法が分かりません")) {
+			if (element.getText().contains(TestStringUtil.CREATE_GRANT_DOCUMENTS_QUESTION)) {
 				createGrantDocuments = element;
-				;
 
-			} else if (element.getText().contains("研修の申し込みはどのようにすれば良いですか？")) {
+			} else if (element.getText().contains(TestStringUtil.APPLY_FOR_TRAINING_QUESTION)) {
 				applyForTraining = element;
 
 				// 期待値以外が表示されていた場合
@@ -163,7 +163,7 @@ public class Case05 {
 		WebElement searchForm = webDriver.findElement(By.id("form"));
 		assertEquals("IT", searchForm.getAttribute("value"));
 
-		webDriver.findElement(By.xpath(TestUrlUtil.CLEAR_BUTTON)).click();
+		webDriver.findElement(By.xpath(TestUrlUtil.CLEAR_BUTTON_XPATH)).click();
 
 		searchForm = webDriver.findElement(By.id("form"));
 		assertEquals("", searchForm.getAttribute("value"));
