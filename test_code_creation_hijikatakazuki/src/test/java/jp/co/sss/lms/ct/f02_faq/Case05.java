@@ -132,8 +132,9 @@ public class Case05 {
 		final List<WebElement> faqTable = webDriver.findElements(By.xpath(TestUrlUtil.FAQ_TABLE));
 		WebElement createGrantDocuments = null;
 		WebElement applyForTraining = null;
+		WebElement otherQuestion = null;
 
-		// 期待する検索結果の要素があることを確認
+		// 期待する検索結果の要素のみが表示されている確認
 		for (WebElement element : faqTable) {
 			if (element.getText().contains("助成金書類の作成方法が分かりません")) {
 				createGrantDocuments = element;
@@ -141,10 +142,15 @@ public class Case05 {
 
 			} else if (element.getText().contains("研修の申し込みはどのようにすれば良いですか？")) {
 				applyForTraining = element;
+
+				// 期待値以外が表示されていた場合
+			} else {
+				otherQuestion = element;
 			}
 		}
 		assertNotEquals(createGrantDocuments, null);
 		assertNotEquals(applyForTraining, null);
+		assertNull(otherQuestion);
 
 		getEvidence(new Object() {
 		});
