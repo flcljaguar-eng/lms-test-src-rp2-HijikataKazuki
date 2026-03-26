@@ -148,12 +148,12 @@ public class Case06 {
 				otherQuestion = element;
 			}
 		}
-		assertNotEquals(cancellFeeAndDropSchool, null);
-		assertNotEquals(applyForTraining, null);
+		assertNotNull(cancellFeeAndDropSchool);
+		assertNotNull(applyForTraining);
 		assertNull(otherQuestion);
 
-		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", cancellFeeAndDropSchool);
-		cancellFeeAndDropSchool.click();
+		((JavascriptExecutor) webDriver).executeScript("window.scrollTo(0,320);", "");
+
 		getEvidence(new Object() {
 		});
 
@@ -163,15 +163,18 @@ public class Case06 {
 	@Order(6)
 	@DisplayName("テスト06 検索結果の質問をクリックしその回答を表示")
 	void test06() {
+		// 表示対象の要素を取得
 		final WebElement cancellFeeAndDropSchool = webDriver
-				.findElement(By.xpath("//dl[contains(@id,'question-h')]"));
+				.findElement(By.xpath(TestUrlUtil.CANCELL_FEE_AND_DROP_SCHOOL_XPATH));
 		assertEquals(TestStringUtil.CANCELL_FEE_AND_DROP_SCHOOL, cancellFeeAndDropSchool.getText());
 
+		// スクロールし取得した要素をクリック
 		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", cancellFeeAndDropSchool);
 		cancellFeeAndDropSchool.click();
 
+		// 回答の要素を取得し、表示されているかを確認
 		final WebElement cancellFeeAndDropSchoolAnswer = webDriver
-				.findElement(By.xpath("//dd[contains(@id,'answer-h')]"));
+				.findElement(By.xpath(TestUrlUtil.CANCELL_FEE_AND_DROP_SCHOOL_ANSER_XPATH));
 		assertEquals(TestStringUtil.CANCELL_FEE_AND_DROP_SCHOOL_ANSER, cancellFeeAndDropSchoolAnswer.getText());
 		assertTrue(cancellFeeAndDropSchoolAnswer.isDisplayed());
 

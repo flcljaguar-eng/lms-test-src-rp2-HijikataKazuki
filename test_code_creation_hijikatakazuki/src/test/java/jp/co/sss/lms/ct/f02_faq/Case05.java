@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import jp.co.sss.lms.ct.util.TestStringUtil;
@@ -153,7 +154,11 @@ public class Case05 {
 		assertNull(otherQuestion);
 
 		getEvidence(new Object() {
-		});
+		}, "1");
+
+		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", applyForTraining);
+		getEvidence(new Object() {
+		}, "2");
 	}
 
 	@Test
@@ -167,6 +172,8 @@ public class Case05 {
 
 		searchForm = webDriver.findElement(By.id("form"));
 		assertEquals("", searchForm.getAttribute("value"));
+
+		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(true);", searchForm);
 
 		getEvidence(new Object() {
 		});

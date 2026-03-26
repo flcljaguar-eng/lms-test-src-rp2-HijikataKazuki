@@ -14,4 +14,7 @@ public interface TestUrlUtil {
 
 	public static final String CATEGORY_SEARCH_TRAINING_XPATH = "/html/body/div[1]/div/div[1]/div/div[1]/fieldset/ul[1]/li/a";
 
+	public static final String CANCELL_FEE_AND_DROP_SCHOOL_XPATH = "//dl[contains(@id,'question-h')]";
+
+	public static final String CANCELL_FEE_AND_DROP_SCHOOL_ANSER_XPATH = "//dd[contains(@id,'answer-h')]";
 }
