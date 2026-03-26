@@ -15,4 +15,6 @@ public interface TestStringUtil {
 			+ "事情をお伺いした上で、協議という形を取らせて頂きます。 弊社営業担当までご相談下さい。";
 
 	public static final String TEST_TEXT = "テスト用テキスト";
+
+	public static final String UPDATE_TEST_TEXT = "これは更新されていることを確認するためのテストテキストです。";
 }
