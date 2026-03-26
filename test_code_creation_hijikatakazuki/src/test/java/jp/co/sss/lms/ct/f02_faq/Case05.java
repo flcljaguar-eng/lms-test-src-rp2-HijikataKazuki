@@ -149,8 +149,8 @@ public class Case05 {
 				otherQuestion = element;
 			}
 		}
-		assertNotEquals(createGrantDocuments, null);
-		assertNotEquals(applyForTraining, null);
+		assertNotNull(createGrantDocuments);
+		assertNotNull(applyForTraining);
 		assertNull(otherQuestion);
 
 		getEvidence(new Object() {
