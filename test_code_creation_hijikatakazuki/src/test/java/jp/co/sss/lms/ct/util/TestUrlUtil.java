@@ -17,4 +17,10 @@ public interface TestUrlUtil {
 	public static final String CANCELL_FEE_AND_DROP_SCHOOL_XPATH = "//dl[contains(@id,'question-h')]";
 
 	public static final String CANCELL_FEE_AND_DROP_SCHOOL_ANSER_XPATH = "//dd[contains(@id,'answer-h')]";
+
+	public static final String REPORT_SUBMIT_BUTTON = "//input[@type='submit' and @value='日報【デモ】を提出する']";
+
+	public static final String REPORT_ALREADY_SUBMITTED_BUTTON = "//input[@type='submit' and @value='提出済み日報【デモ】を確認する']";
+
+	public static final String HEADER_USER_NAME_XPATH = "//*[@id=\"nav-content\"]/ul[2]/li[2]/a/small";
 }

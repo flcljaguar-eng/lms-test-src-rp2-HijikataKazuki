@@ -1,9 +1,14 @@
 package jp.co.sss.lms.ct.util;
 
 public interface TestStringUtil {
+	public static final String USER_DETAIL_PAGE = "ユーザー詳細";
+
 	public static final String SECTION_DETAIL_PAGE = "セクション詳細 | LMS";
 
 	public static final String SUBMIT_REPORT_PAGE = "レポート登録 | LMS";
+
+	public static final String REPORT_DETAIL_PAGE = "レポート詳細 | LMS";
+
 	public static final String STUDENT_PASSWORD = "StudentAA01";
 	public static final String APPLY_FOR_TRAINING_QUESTION = "Q.助成金書類の作成方法が分かりません";
 

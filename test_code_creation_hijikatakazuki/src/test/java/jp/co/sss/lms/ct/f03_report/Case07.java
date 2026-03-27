@@ -118,7 +118,7 @@ public class Case07 {
 	@DisplayName("テスト04 「提出する」ボタンを押下しレポート登録画面に遷移")
 	void test04() {
 		final WebElement toSubmitBtn = webDriver
-				.findElement(By.xpath("//input[@type='submit' and @value='日報【デモ】を提出する']"));
+				.findElement(By.xpath(TestUrlUtil.REPORT_SUBMIT_BUTTON));
 		((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView(false);", toSubmitBtn);
 		final WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.className("panel")));
@@ -146,7 +146,7 @@ public class Case07 {
 		submitBtn.click();
 
 		final WebElement submitedReport = webDriver
-				.findElement(By.xpath("//input[@type='submit' and @value='提出済み日報【デモ】を確認する']"));
+				.findElement(By.xpath(TestUrlUtil.REPORT_ALREADY_SUBMITTED_BUTTON));
 
 		assertNotNull(submitedReport);
 		getEvidence(new Object() {
